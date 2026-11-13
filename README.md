@@ -25,6 +25,24 @@ Audit for https://example.com/
 Score: 78/100
 ```
 
+### Checking lots of sites
+
+Put one website per line in a text file (lines starting with `#` are ignored):
+
+```
+# barbers in Ealing
+joesbarbers.co.uk
+fadeandco.com
+```
+
+Then run:
+
+```
+python -m site_audit --file sites.txt --csv results.csv
+```
+
+It prints a summary with the worst sites first and saves everything to `results.csv`, which opens in Excel or Google Sheets.
+
 ## Checks
 
 - HTTPS
@@ -44,6 +62,5 @@ pytest
 
 ## Plans
 
-- Check lots of sites at once from a CSV file
 - HTML report you can send to a client
 - Broken link checker
