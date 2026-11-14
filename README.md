@@ -1,5 +1,7 @@
 # Site Audit
 
+[![tests](https://github.com/anwarshurih/site-audit/actions/workflows/tests.yml/badge.svg)](https://github.com/anwarshurih/site-audit/actions/workflows/tests.yml)
+
 A command line tool that checks a website for common problems: no HTTPS, not mobile friendly, missing SEO tags, slow responses and more. It gives each site a score out of 100.
 
 I built it to quickly check small business websites before offering to improve them.
