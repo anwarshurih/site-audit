@@ -13,6 +13,9 @@ FIXES = {
     "Main heading": "Use exactly one main heading (h1) that says what the business does.",
     "Image alt text": "Describe each image in a few words. It helps Google and people using screen readers.",
     "HTML size": "Remove unused code and plugins to make the page lighter.",
+    "Favicon": "Add a small logo icon so the site is easy to spot in browser tabs and bookmarks.",
+    "Social preview": "Add Open Graph tags so links shared on WhatsApp, Facebook and LinkedIn show a title and image.",
+    "Language": 'Add lang="en" to the <html> tag.',
 }
 
 STYLE = """

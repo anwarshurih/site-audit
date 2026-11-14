@@ -80,6 +80,31 @@ def check_page_size(page):
     return Result("HTML size", False, f"{kb:.0f} KB of HTML (quite heavy)")
 
 
+def check_favicon(page):
+    for link in page.soup.find_all("link", rel=True):
+        rel = " ".join(link["rel"]).lower() if isinstance(link["rel"], list) else link["rel"].lower()
+        if "icon" in rel:
+            return Result("Favicon", True, "Has a favicon")
+    return Result("Favicon", False, "No favicon linked (browser tabs show a blank icon)")
+
+
+def check_social_preview(page):
+    wanted = ["og:title", "og:description", "og:image"]
+    found = {tag.get("property") for tag in page.soup.find_all("meta", property=True)}
+    missing = [w for w in wanted if w not in found]
+    if not missing:
+        return Result("Social preview", True, "Has Open Graph tags for link previews")
+    return Result("Social preview", False, f"Missing {', '.join(missing)} (links look plain when shared)")
+
+
+def check_language(page):
+    html_tag = page.soup.find("html")
+    lang = html_tag.get("lang") if html_tag else None
+    if lang:
+        return Result("Language", True, f'lang="{lang}"')
+    return Result("Language", False, "No lang attribute on <html> (helps screen readers and Google)")
+
+
 # every check that gets run, in the order they appear in the report
 ALL_CHECKS = [
     check_https,
@@ -90,4 +115,7 @@ ALL_CHECKS = [
     check_h1,
     check_image_alt,
     check_page_size,
+    check_favicon,
+    check_social_preview,
+    check_language,
 ]

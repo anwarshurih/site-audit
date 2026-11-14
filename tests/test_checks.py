@@ -8,7 +8,11 @@ def make_page(html, url="https://example.com", load_time=0.5):
     return Page(url, html, BeautifulSoup(html, "html.parser"), load_time, 200)
 
 
-GOOD = """<html><head><title>Joe's Barbers | Ealing</title>
+GOOD = """<html lang="en"><head><title>Joe's Barbers | Ealing</title>
+<link rel="icon" href="/favicon.ico">
+<meta property="og:title" content="Joe's Barbers">
+<meta property="og:description" content="Walk-in barbers">
+<meta property="og:image" content="https://example.com/shop.jpg">
 <meta name="description" content="Walk-in barbers in Ealing.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head><body><h1>Joe's Barbers</h1><img src="a.jpg" alt="shop"></body></html>"""
@@ -36,3 +40,17 @@ def test_bad_page_fails():
 def test_long_title():
     page = make_page("<title>" + "x" * 80 + "</title>")
     assert not checks.check_title(page).passed
+
+
+def test_missing_extras():
+    page = make_page("<html><head><title>x</title></head><body></body></html>")
+    assert not checks.check_favicon(page).passed
+    assert not checks.check_language(page).passed
+    result = checks.check_social_preview(page)
+    assert not result.passed
+    assert "og:image" in result.message
+
+
+def test_apple_touch_icon_counts_as_favicon():
+    page = make_page('<link rel="apple-touch-icon" href="/icon.png">')
+    assert checks.check_favicon(page).passed

@@ -66,6 +66,9 @@ python -m site_audit --file sites.txt --html reports
 - One main heading
 - Image alt text
 - HTML size
+- Favicon
+- Social preview (Open Graph) tags
+- Language attribute
 
 ## Running the tests
 
