@@ -6,11 +6,14 @@
 
 import argparse
 import csv
+import os
+import re
 import sys
 
 import requests
 
 from .audit import audit
+from .report import save_report
 
 
 def print_report(page, results, total):
@@ -38,11 +41,24 @@ def save_csv(rows, path):
     print(f"Saved results for {len(rows)} sites to {path}")
 
 
+def save_html(target, site, url, results, total, several):
+    """Save one report file, or one per site inside a folder when checking several."""
+    if several:
+        os.makedirs(target, exist_ok=True)
+        name = re.sub(r"[^a-zA-Z0-9.-]", "_", site.replace("https://", "").replace("http://", "")).strip("_")
+        path = os.path.join(target, f"{name}.html")
+    else:
+        path = target
+    save_report(path, url, results, total)
+    print(f"Saved report to {path}\n")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Check websites for common problems.")
     parser.add_argument("urls", nargs="*", help="websites to check, e.g. example.com")
     parser.add_argument("-f", "--file", help="text file with one website per line")
     parser.add_argument("--csv", help="save a summary of all results to this CSV file")
+    parser.add_argument("--html", help="save an HTML report (one site), or a folder of reports (several sites)")
     args = parser.parse_args()
 
     sites = list(args.urls)
@@ -61,6 +77,8 @@ def main():
             continue
 
         print_report(page, results, total)
+        if args.html:
+            save_html(args.html, site, page.url, results, total, several=len(sites) > 1)
         problems = "; ".join(r.name for r in results if not r.passed)
         rows.append([site, total, problems])
 

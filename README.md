@@ -43,6 +43,20 @@ python -m site_audit --file sites.txt --csv results.csv
 
 It prints a summary with the worst sites first and saves everything to `results.csv`, which opens in Excel or Google Sheets.
 
+### Reports for clients
+
+Add `--html` to save a clean report you can send to the business owner. It shows the score, every check and a plain-English "how to fix" for each problem:
+
+```
+python -m site_audit joesbarbers.co.uk --html report.html
+```
+
+With several sites, give a folder name instead and you get one report per site:
+
+```
+python -m site_audit --file sites.txt --html reports
+```
+
 ## Checks
 
 - HTTPS
@@ -62,5 +76,4 @@ pytest
 
 ## Plans
 
-- HTML report you can send to a client
 - Broken link checker
