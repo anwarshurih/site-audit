@@ -16,6 +16,7 @@ FIXES = {
     "Favicon": "Add a small logo icon so the site is easy to spot in browser tabs and bookmarks.",
     "Social preview": "Add Open Graph tags so links shared on WhatsApp, Facebook and LinkedIn show a title and image.",
     "Language": 'Add lang="en" to the <html> tag.',
+    "Broken links": "Fix or remove links that lead to missing pages. They frustrate visitors and hurt search rankings.",
 }
 
 STYLE = """

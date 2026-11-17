@@ -58,6 +58,7 @@ def main():
     parser.add_argument("urls", nargs="*", help="websites to check, e.g. example.com")
     parser.add_argument("-f", "--file", help="text file with one website per line")
     parser.add_argument("--csv", help="save a summary of all results to this CSV file")
+    parser.add_argument("--links", action="store_true", help="also check every link on the page (slower)")
     parser.add_argument("--html", help="save an HTML report (one site), or a folder of reports (several sites)")
     args = parser.parse_args()
 
@@ -70,7 +71,7 @@ def main():
     rows = []
     for site in sites:
         try:
-            page, results, total = audit(site)
+            page, results, total = audit(site, check_links=args.links)
         except requests.RequestException as e:
             print(f"Could not load {site}: {e}\n")
             rows.append([site, "", "could not load site"])

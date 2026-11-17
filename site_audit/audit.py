@@ -40,7 +40,10 @@ def score(results):
     return round(passed / total * 100) if total else 0
 
 
-def audit(url):
+def audit(url, check_links=False):
     page = fetch(url)
     results = [check(page) for check in ALL_CHECKS]
+    if check_links:
+        from .links import check_links as run_link_check
+        results.append(run_link_check(page))
     return page, results, score(results)

@@ -71,6 +71,7 @@ python -m site_audit --file sites.txt --html reports
 - Favicon
 - Social preview (Open Graph) tags
 - Language attribute
+- Broken links (optional, add `--links`)
 
 ## Running the tests
 
@@ -81,4 +82,3 @@ pytest
 
 ## Plans
 
-- Broken link checker
